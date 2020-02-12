@@ -58,15 +58,78 @@ public class Polynomial {
 	 * @return A new polynomial which is the sum of the input polynomials - the returned node
 	 *         is the front of the result polynomial
 	 */
+
 	public static Node add(Node poly1, Node poly2) {
 		Node answer;
-		Term t1 = poly1.term,t2 = poly2.term;
-		while(poly1.next!=null || poly2.next!=null){
-			float s = t1.coeff +t2.coeff;
-			if(t1.degree == t2.degree)
-				answer = new Node(s,t1.degree,null);
+		if(poly1.term.degree == poly2.term.degree){
+			float sum = poly1.term.coeff + poly2.term.coeff;
+			if(sum ==0){
+				answer = null;
+			}else {
+				answer = new Node(sum, poly1.term.degree, null);
+			}
+			poly1 = poly1.next;
+			poly2 = poly2.next;
+		}else if(poly1.term.degree < poly2.term.degree){
+			answer = poly1;
+			poly1 = poly1.next;
+		}else{
+			answer = poly2;
+			poly2 = poly2.next;
 		}
-		return null;
+		Node first = answer;
+		Node end = null;
+		while(poly1!=null || poly2!=null){
+			System.out.println(toString(poly2) +"\t"+ toString(first));
+			assert poly1 != null;
+			assert poly2 != null;
+			if(poly1.term.degree == poly2.term.degree){
+				float sum = poly1.term.coeff + poly2.term.coeff;
+				if(answer==null && sum !=0){
+					answer = new Node(sum, poly1.term.degree,null);
+					first = answer;
+					answer = answer.next;
+				}else if (sum != 0){
+					answer.next= new Node(sum, poly1.term.degree,null);
+					answer = answer.next;
+				}
+				poly1 = poly1.next;
+				poly2 = poly2.next;
+			}else if(poly1.term.degree < poly2.term.degree){
+				if(answer!=null) {
+					answer.next = poly1;
+					answer = answer.next;
+				}else {
+					answer = poly1;
+					answer = answer.next;
+				}
+				poly1 = poly1.next;
+			}else{
+				if(answer!=null) {
+					answer.next = poly2;
+					answer = answer.next;
+				}else {
+					answer = poly2;
+					answer = answer.next;
+				}
+				poly2 = poly2.next;
+			}
+
+			if(poly1 == null){
+				end = poly2;
+				break;
+			}
+			if(poly2 == null){
+				end = poly1;
+				break;
+			}
+		}
+		if(answer!=null) {
+			answer.next = end;
+		}else{
+			first = end;
+		}
+		return first;
 	}
 	
 	/**
