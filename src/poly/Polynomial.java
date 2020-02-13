@@ -101,6 +101,7 @@ public class Polynomial {
 					answer = answer.next;
 				}else {
 					answer = poly1;
+					first = answer;
 					answer = answer.next;
 				}
 				poly1 = poly1.next;
@@ -110,6 +111,7 @@ public class Polynomial {
 					answer = answer.next;
 				}else {
 					answer = poly2;
+					first = answer;
 					answer = answer.next;
 				}
 				poly2 = poly2.next;
