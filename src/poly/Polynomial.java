@@ -80,7 +80,6 @@ public class Polynomial {
 		Node first = answer;
 		Node end = null;
 		while(poly1!=null || poly2!=null){
-			System.out.println(toString(poly2) +"\t"+ toString(first));
 			assert poly1 != null;
 			assert poly2 != null;
 			if(poly1.term.degree == poly2.term.degree){
@@ -88,7 +87,6 @@ public class Polynomial {
 				if(answer==null && sum !=0){
 					answer = new Node(sum, poly1.term.degree,null);
 					first = answer;
-					answer = answer.next;
 				}else if (sum != 0){
 					answer.next= new Node(sum, poly1.term.degree,null);
 					answer = answer.next;
@@ -97,40 +95,42 @@ public class Polynomial {
 				poly2 = poly2.next;
 			}else if(poly1.term.degree < poly2.term.degree){
 				if(answer!=null) {
-					answer.next = poly1;
+					answer.next = new Node(poly1.term.coeff, poly1.term.degree,null);
 					answer = answer.next;
 				}else {
-					answer = poly1;
+					answer = new Node(poly1.term.coeff, poly1.term.degree,null);;
 					first = answer;
-					answer = answer.next;
 				}
 				poly1 = poly1.next;
 			}else{
 				if(answer!=null) {
-					answer.next = poly2;
+					answer.next = new Node(poly2.term.coeff, poly2.term.degree,null);;
 					answer = answer.next;
 				}else {
-					answer = poly2;
+					answer = new Node(poly2.term.coeff, poly2.term.degree,null);;
 					first = answer;
-					answer = answer.next;
 				}
 				poly2 = poly2.next;
 			}
 
-			if(poly1 == null){
-				end = poly2;
+			if(poly1 == null &&poly2!=null){
+				if(answer==null){
+					first=poly2;
+				}else {
+					answer.next = poly2;
+				}
 				break;
 			}
-			if(poly2 == null){
-				end = poly1;
+			if(poly2 == null && poly1 !=null){
+				if(answer==null){
+					first=poly1;
+				}else {
+					answer.next = poly1;
+				}
 				break;
 			}
 		}
-		if(answer!=null) {
-			answer.next = end;
-		}else{
-			first = end;
-		}
+
 		return first;
 	}
 	

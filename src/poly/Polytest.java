@@ -27,7 +27,7 @@ public class Polytest {
 	public static void add() 
 	throws IOException {
 		//System.out.print("Enter the file containing the polynomial to add => ");
-		sc2 = new Scanner(new File("C:\\Users\\Akash\\OneDrive\\Documents\\Data Structures\\Project1\\Polynomial\\ptest1opp.txt"));
+		sc2 = new Scanner(new File("C:\\Users\\Akash\\OneDrive\\Documents\\Data Structures\\Project1\\Polynomial\\ptest2.txt"));
 		poly2 = Polynomial.read(sc2);
 		System.out.println("\n" + Polynomial.toString(poly2) + "\n");
 		System.out.println("Sum: " + 
