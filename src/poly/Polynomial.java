@@ -60,74 +60,83 @@ public class Polynomial {
 	 */
 
 	public static Node add(Node poly1, Node poly2) {
-		Node answer;
-		if(poly1.term.degree == poly2.term.degree){
-			float sum = poly1.term.coeff + poly2.term.coeff;
-			if(sum ==0){
-				answer = null;
-			}else {
-				answer = new Node(sum, poly1.term.degree, null);
-			}
-			poly1 = poly1.next;
-			poly2 = poly2.next;
-		}else if(poly1.term.degree < poly2.term.degree){
-			answer = poly1;
-			poly1 = poly1.next;
-		}else{
-			answer = poly2;
-			poly2 = poly2.next;
-		}
-		Node first = answer;
-		Node end = null;
-		while(poly1!=null || poly2!=null){
-			assert poly1 != null;
-			assert poly2 != null;
-			if(poly1.term.degree == poly2.term.degree){
+		Node answer = null;
+		Node first = null;
+		if(poly1 == null && poly2 == null){
+			return null;
+		}else if(poly1 == null){
+			return poly2;
+		}else if (poly2 == null){
+			return poly1;
+		}else {
+			if (poly1.term.degree == poly2.term.degree) {
 				float sum = poly1.term.coeff + poly2.term.coeff;
-				if(answer==null && sum !=0){
-					answer = new Node(sum, poly1.term.degree,null);
-					first = answer;
-				}else if (sum != 0){
-					answer.next= new Node(sum, poly1.term.degree,null);
-					answer = answer.next;
+				if (sum == 0) {
+					answer = null;
+				} else {
+					answer = new Node(sum, poly1.term.degree, null);
 				}
 				poly1 = poly1.next;
 				poly2 = poly2.next;
-			}else if(poly1.term.degree < poly2.term.degree){
-				if(answer!=null) {
-					answer.next = new Node(poly1.term.coeff, poly1.term.degree,null);
-					answer = answer.next;
-				}else {
-					answer = new Node(poly1.term.coeff, poly1.term.degree,null);;
-					first = answer;
-				}
+			} else if (poly1.term.degree < poly2.term.degree) {
+				answer = poly1;
 				poly1 = poly1.next;
-			}else{
-				if(answer!=null) {
-					answer.next = new Node(poly2.term.coeff, poly2.term.degree,null);;
-					answer = answer.next;
-				}else {
-					answer = new Node(poly2.term.coeff, poly2.term.degree,null);;
-					first = answer;
-				}
+			} else {
+				answer = poly2;
 				poly2 = poly2.next;
 			}
-
-			if(poly1 == null &&poly2!=null){
-				if(answer==null){
-					first=poly2;
-				}else {
-					answer.next = poly2;
+			first = answer;
+			Node end = null;
+			while (poly1 != null || poly2 != null) {
+				if (poly1 == null) {
+					if (answer == null) {
+						first = poly2;
+					} else {
+						answer.next = poly2;
+					}
+					break;
 				}
-				break;
-			}
-			if(poly2 == null && poly1 !=null){
-				if(answer==null){
-					first=poly1;
-				}else {
-					answer.next = poly1;
+				if (poly2 == null) {
+					if (answer == null) {
+						first = poly1;
+					} else {
+						answer.next = poly1;
+					}
+					break;
 				}
-				break;
+				assert poly1 != null;
+				assert poly2 != null;
+				System.out.println(toString(poly2));
+				if (poly1.term.degree == poly2.term.degree) {
+					float sum = poly1.term.coeff + poly2.term.coeff;
+					if (answer == null && sum != 0) {
+						answer = new Node(sum, poly1.term.degree, null);
+						first = answer;
+					} else if (sum != 0) {
+						answer.next = new Node(sum, poly1.term.degree, null);
+						answer = answer.next;
+					}
+					poly1 = poly1.next;
+					poly2 = poly2.next;
+				} else if (poly1.term.degree < poly2.term.degree) {
+					if (answer != null) {
+						answer.next = new Node(poly1.term.coeff, poly1.term.degree, null);
+						answer = answer.next;
+					} else {
+						answer = new Node(poly1.term.coeff, poly1.term.degree, null);
+						first = answer;
+					}
+					poly1 = poly1.next;
+				} else {
+					if (answer != null) {
+						answer.next = new Node(poly2.term.coeff, poly2.term.degree, null);
+						answer = answer.next;
+					} else {
+						answer = new Node(poly2.term.coeff, poly2.term.degree, null);
+						first = answer;
+					}
+					poly2 = poly2.next;
+				}
 			}
 		}
 
@@ -145,10 +154,29 @@ public class Polynomial {
 	 *         is the front of the result polynomial
 	 */
 	public static Node multiply(Node poly1, Node poly2) {
-		/** COMPLETE THIS METHOD **/
-		// FOLLOWING LINE IS A PLACEHOLDER TO MAKE THIS METHOD COMPILE
-		// CHANGE IT AS NEEDED FOR YOUR IMPLEMENTATION
-		return null;
+		Node sum = null;
+		Node first;
+		Node poly2copy = poly2;
+		System.out.println(toString(poly1));
+		while (poly1!=null){
+			Node current = null;
+			first = null;
+			poly2 = poly2copy;
+			while (poly2!=null) {
+				if (current == null){
+					current = new Node(poly1.term.coeff * poly2.term.coeff, poly1.term.degree + poly2.term.degree, null);
+					first = current;
+				}else{
+					current.next = new Node(poly1.term.coeff * poly2.term.coeff, poly1.term.degree + poly2.term.degree, null);
+					current = current.next;
+				}
+				poly2 = poly2.next;
+			}
+			System.out.println(toString(sum) +"\t\t"+ toString(first));
+			sum = add(sum,first);
+			poly1 = poly1.next;
+		}
+		return sum;
 	}
 		
 	/**
@@ -159,10 +187,12 @@ public class Polynomial {
 	 * @return Value of polynomial p at x
 	 */
 	public static float evaluate(Node poly, float x) {
-		/** COMPLETE THIS METHOD **/
-		// FOLLOWING LINE IS A PLACEHOLDER TO MAKE THIS METHOD COMPILE
-		// CHANGE IT AS NEEDED FOR YOUR IMPLEMENTATION
-		return 0;
+		float sum = 0;
+		while (poly!=null){
+			sum += (float) (poly.term.coeff * (Math.pow(x,poly.term.degree)));
+			poly = poly.next;
+		}
+		return sum;
 	}
 	
 	/**

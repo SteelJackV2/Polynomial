@@ -36,8 +36,8 @@ public class Polytest {
 	
 	public static void multiply() 
 	throws IOException {
-		System.out.print("Enter the file containing the polynomial to multiply  => ");
-		sc2 = new Scanner(new File(sc1.nextLine()));
+		//System.out.print("Enter the file containing the polynomial to multiply  => ");
+		sc2 = new Scanner(new File("C:\\Users\\Akash\\OneDrive\\Documents\\Data Structures\\Project1\\Polynomial\\ptest3.txt"));
 		poly2 = Polynomial.read(sc2);
 		System.out.println("\n" + Polynomial.toString(poly2) + "\n");
 		System.out.println("Product: " + 
